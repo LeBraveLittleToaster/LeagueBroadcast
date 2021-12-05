@@ -1,4 +1,6 @@
-﻿using LeagueBroadcast.Common;
+﻿using System;
+using System.Windows.Controls;
+using LeagueBroadcast.Common;
 using LeagueBroadcast.Common.Controllers;
 using LeagueBroadcast.MVVM.Core;
 using System.Windows.Input;
@@ -82,11 +84,11 @@ namespace LeagueBroadcast.MVVM.ViewModel
 
     public class ObjectivesTabViewModel : ObservableObject
     {
-        public ControlButtonViewModel BaronTimer = new("Baron Timer", "Show Timer and Gold difference when Baron is taken", ConfigController.Component.Ingame.UseLiveEvents);
-        public ControlButtonViewModel ElderTimer = new("Elder Timer", "Show Timer and Gold difference when Elder Drake is taken", ConfigController.Component.Ingame.UseLiveEvents);
-        public ControlButtonViewModel InhibTimer = new("Inhibitor Timers", "Show Inhibitor Timers", true);
-        public ControlButtonViewModel ObjectiveSpawn = new("Spawn", "Show Spawn PopUp when an objective spawns", ConfigController.Component.Ingame.UseLiveEvents);
-        public ControlButtonViewModel ObjectiveKill = new("Kill", "Show Spawn PopUp when an objective is killed", ConfigController.Component.Ingame.UseLiveEvents);
+        public ControlButtonViewModel BaronTimer = new("Baron Timer", "Show Timer and Gold difference when Baron is taken", ConfigController.Component.Ingame.UseLiveEvents,"test");
+        public ControlButtonViewModel ElderTimer = new("Elder Timer", "Show Timer and Gold difference when Elder Drake is taken", ConfigController.Component.Ingame.UseLiveEvents,"test");
+        public ControlButtonViewModel InhibTimer = new("Inhibitor Timers", "Show Inhibitor Timers", true,"test");
+        public ControlButtonViewModel ObjectiveSpawn = new("Spawn", "Show Spawn PopUp when an objective spawns", ConfigController.Component.Ingame.UseLiveEvents,"test");
+        public ControlButtonViewModel ObjectiveKill = new("Kill", "Show Spawn PopUp when an objective is killed", ConfigController.Component.Ingame.UseLiveEvents,"test");
 
         public bool BaronIsActive { get { return ConfigController.Component.Ingame.Objectives.DoBaronKill; } set { ConfigController.Component.Ingame.Objectives.DoBaronKill = value; OnPropertyChanged(); } }
         public bool ElderIsActive { get { return ConfigController.Component.Ingame.Objectives.DoDragonKill; } set { ConfigController.Component.Ingame.Objectives.DoDragonKill = value; OnPropertyChanged(); } }
@@ -177,11 +179,11 @@ namespace LeagueBroadcast.MVVM.ViewModel
 
     public class PlayersTabViewModel : ObservableObject
     {
-        public ControlButtonViewModel Items = new("Item Notifications", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.DoItemCompleted);
-        public ControlButtonViewModel LevelUp = new("Level Up Notifications", "Show Lvl Up pop up @ lvls 6/11/16", ConfigController.Component.Ingame.DoLevelUp);
-        public ControlButtonViewModel EXP = new("EXP Tab", "EXP and Level per Player scoreboard", true);
-        public ControlButtonViewModel PlayerGold = new("Gold Tab", "Gold per Player scoreboard", true);
-        public ControlButtonViewModel PlayerCSperMin = new("CS per Min.", "CS per Minute per Player scoreboard", true);
+        public ControlButtonViewModel Items = new("Item Notifications", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.DoItemCompleted, "test");
+        public ControlButtonViewModel LevelUp = new("Level Up Notifications", "Show Lvl Up pop up @ lvls 6/11/16", ConfigController.Component.Ingame.DoLevelUp,"test");
+        public ControlButtonViewModel EXP = new("EXP Tab", "EXP and Level per Player scoreboard", true,"test");
+        public ControlButtonViewModel PlayerGold = new("Gold Tab", "Gold per Player scoreboard", true,"test");
+        public ControlButtonViewModel PlayerCSperMin = new("CS per Min.", "CS per Minute per Player scoreboard", true,"test");
 
         public bool ItemsIsActive { get { return ConfigController.Component.Ingame.DoItemCompleted; } set { ConfigController.Component.Ingame.DoItemCompleted = value; OnPropertyChanged(); } }
         public bool LevelUpIsActive { get { return ConfigController.Component.Ingame.DoLevelUp; } set { ConfigController.Component.Ingame.DoLevelUp = value; OnPropertyChanged(); } }
@@ -269,18 +271,27 @@ namespace LeagueBroadcast.MVVM.ViewModel
 
     public class TeamsTabViewModel : ObservableObject
     {
-        public ControlButtonViewModel Name = new("Team Names", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.Teams.DoTeamNames);
-        public ControlButtonViewModel Score = new("Team Scores", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.Teams.DoTeamScores);
-        public ControlButtonViewModel Icon = new("Team Icons", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.Teams.DoTeamIcons);
-        public ControlButtonViewModel Gold = new("Gold Graph", "Scoreboard team gold difference graph since the start of the game", IngameController.CurrentSettings.GoldGraph);
-        public ControlButtonViewModel Scoreboard = new("Scoreboard", "Use custom scoreboard", ConfigController.Component.Ingame.UseCustomScoreboard);
+        public ControlButtonViewModel Name = new("Team Names", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.Teams.DoTeamNames, "test");
+        public ControlButtonViewModel Score = new("Team Scores", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.Teams.DoTeamScores,"test");
+        public ControlButtonViewModel Icon = new("Team Icons", "Show Item pop up over player icons when item is completed", ConfigController.Component.Ingame.Teams.DoTeamIcons,"test");
+        public ControlButtonViewModel Gold = new("Gold Graph", "Scoreboard team gold difference graph since the start of the game", IngameController.CurrentSettings.GoldGraph,"test");
+        public ControlButtonViewModel Scoreboard = new("Scoreboard", "Use custom scoreboard", ConfigController.Component.Ingame.UseCustomScoreboard,"CURRENT HOTKEY");
 
+        
         public bool NamesIsActive { get { return ConfigController.Component.Ingame.Teams.DoTeamNames; } set{ ConfigController.Component.Ingame.Teams.DoTeamNames = value; OnPropertyChanged(); } }
         public bool ScoresIsActive { get { return ConfigController.Component.Ingame.Teams.DoTeamScores; } set { ConfigController.Component.Ingame.Teams.DoTeamScores = value; OnPropertyChanged(); } }
         public bool IconsIsActive { get { return ConfigController.Component.Ingame.Teams.DoTeamIcons; } set { ConfigController.Component.Ingame.Teams.DoTeamIcons = value; OnPropertyChanged(); } }
         public bool ScoreboardIsActive { get { return ConfigController.Component.Ingame.UseCustomScoreboard; } set { ConfigController.Component.Ingame.UseCustomScoreboard = value; OnPropertyChanged(); } }
 
         public bool GoldGraphIsActive { get { return IngameController.CurrentSettings.GoldGraph; } set { IngameController.CurrentSettings.GoldGraph = value; OnPropertyChanged(); } }
+
+        private DelegateCommand _scoreboardButtonHotkeyCommand;
+
+        public DelegateCommand ScoreboardButtonHotkeyCommand
+        {
+            get { return _scoreboardButtonHotkeyCommand; }
+            set { _scoreboardButtonHotkeyCommand = value; }
+        }
 
         private DelegateCommand _namesButtonCommand;
 
@@ -358,6 +369,11 @@ namespace LeagueBroadcast.MVVM.ViewModel
                 ScoreboardIsActive ^= true;
             });
             _scoreboardButtonCommand.MouseGesture = MouseAction.LeftClick;
+            
+            _scoreboardButtonHotkeyCommand = new(o =>
+            {
+                Console.Out.WriteLine("Hello World");
+            });
         }
 
     }
@@ -388,12 +404,21 @@ namespace LeagueBroadcast.MVVM.ViewModel
             get { return _isEnabled; }
             set { _isEnabled = value; OnPropertyChanged(); }
         }
+        
+        private string _hotkey;
 
-        public ControlButtonViewModel(string title, string desc, bool isEnabled)
+        public string Hotkey
+        {
+            get { return _hotkey; }
+            set { _hotkey = value; OnPropertyChanged(); }
+        }
+
+        public ControlButtonViewModel(string title, string desc, bool isEnabled, string hotkey)
         {
             this._isEnabled = isEnabled;
             this._title = title;
             this._description = desc;
+            this._hotkey = hotkey;
         }
 
     }
