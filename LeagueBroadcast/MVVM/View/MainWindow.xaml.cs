@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using KeyDownTester.Keys;
 
 namespace LeagueBroadcast.MVVM.View
 {
@@ -15,6 +16,7 @@ namespace LeagueBroadcast.MVVM.View
             InitializeComponent();
             LocationChanged += new EventHandler(Window_LocationChanged);
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+            HotkeysManager.SetupSystemHook();
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
@@ -25,6 +27,7 @@ namespace LeagueBroadcast.MVVM.View
 
         private void ExitApp_Click(object sender, RoutedEventArgs e)
         {
+            HotkeysManager.ShutdownSystemHook();
             Close();
         }
 

@@ -42,6 +42,7 @@ namespace LeagueBroadcast.Http
         {
             var webRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "cache");
             Log.Info($"Server file system starting");
+            Log.Info("Working directory: " + Directory.GetCurrentDirectory());
             var server = new WebServer(o => o
                     .WithUrlPrefix(url)
                     .WithMode(HttpListenerMode.EmbedIO))

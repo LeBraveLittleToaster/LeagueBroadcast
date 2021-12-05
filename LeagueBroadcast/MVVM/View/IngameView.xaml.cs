@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KeyDownTester.Keys;
 using LeagueBroadcast.OperatingSystem;
 
 namespace LeagueBroadcast.MVVM.View
@@ -66,19 +67,17 @@ namespace LeagueBroadcast.MVVM.View
 
         private void UnregisterHotkeys(object sender, RoutedEventArgs e)
         {
-            GlobalHotKey.UnregisterHotKey(idAlt);
-            GlobalHotKey.UnregisterHotKey(idControl);
             Console.Out.WriteLine("Unregistered");
         }
 
         private void RegisterHotkeys(object sender, RoutedEventArgs e)
         {
-            idAlt = GlobalHotKey.RegisterHotKey(ModifierKeys.Alt, Key.A, () =>
+            Console.Out.WriteLine("Registered");
+            HotkeysManager.AddHotkey(ModifierKeys.Alt, Key.A, () =>
             {
                 Console.Out.WriteLine("Hello World ALT");
             });
-            idControl = GlobalHotKey.RegisterHotKey(ModifierKeys.Control, Key.A, () => ctx.Teams.ScoreboardButtonCommand.Execute(new object()));
-            Console.Out.WriteLine("Registered");
+            HotkeysManager.AddHotkey(ModifierKeys.Control, Key.A, () => ctx.Teams.ScoreboardButtonCommand.Execute(new object()));
         }
 
         private void MainContainer_ScrollChanged(object sender, ScrollChangedEventArgs e)
